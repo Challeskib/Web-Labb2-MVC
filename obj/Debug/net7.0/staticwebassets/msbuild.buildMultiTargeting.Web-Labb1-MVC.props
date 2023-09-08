@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Web-Labb1-MVC.props" />
+</Project>
