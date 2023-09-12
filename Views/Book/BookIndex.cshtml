@@ -1,10 +1,15 @@
 ﻿@model IEnumerable<Book>
 @{
     ViewData["Title"] = "BookIndex";
+
 }
 <h1>BookIndex</h1>
 <p>
-    <a asp-action="CreateBook" class="btn btn-outline-primary"><i class="fa fa-plus"></i> Create New</a>
+    <a asp-action="CreateBook" class="btn btn-outline-primary"><i class="fa fa-plus"></i> Create New Book</a>
+</p>
+
+<p>
+    <a asp-action="CreateAuthor" asp-controller="Author" class="btn btn-outline-primary"><i class="fa fa-plus"></i> Create New Author</a>
 </p>
 
 <table class="table">
@@ -23,7 +28,10 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genre)
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoanAble)
             </th>
         </tr>
     </thead>
@@ -42,7 +50,10 @@
 
                 <td>@Html.DisplayFor(modelItem => item.Description)</td>
 
-                <td>@Html.DisplayFor(modelItem => item.Genre.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Year)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.LoanAble)</td>
+
 
                 <td>
                     <a asp-action="Details" class="btn btn-success" asp-route-id="@item.Id">Details <i class="fa fa-edit"></i></a>

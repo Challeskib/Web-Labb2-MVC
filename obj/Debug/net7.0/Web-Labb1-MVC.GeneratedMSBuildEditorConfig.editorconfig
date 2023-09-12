@@ -16,6 +16,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\charl\source\repos\Web-Labb1-MVC
 build_property._RazorSourceGeneratorDebug = 
 
+[C:/Users/charl/source/repos/Web-Labb1-MVC/Views/Author/CreateAuthor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0aG9yXENyZWF0ZUF1dGhvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/charl/source/repos/Web-Labb1-MVC/Views/Book/BookIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va1xCb29rSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

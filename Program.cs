@@ -9,6 +9,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<IBookService, BookService>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddHttpClient<IAuthorService, AuthorService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+builder.Services.AddHttpClient<IGenreService, GenreService>();
+builder.Services.AddScoped<IGenreService, GenreService>();
 
 StaticDetails.BookApiBase = builder.Configuration["ServiceUrls:SUT22BookAPI"];
 

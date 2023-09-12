@@ -1,7 +1,9 @@
 ﻿using Labb1_Minimal_Api.Models;
 using Labb1_Minimal_Api.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using Web_Labb1_MVC.Models;
 using Web_Labb1_MVC.Services.ServiceInterfaces;
 using ApiResponse = Labb1_Minimal_Api.Models.ApiResponse;
 
@@ -12,11 +14,14 @@ namespace Web_Labb1_MVC.Controllers
     {
         private readonly IBookService _bookService;
         private readonly ILogger<BookController> _logger;
+        private readonly IGenreService _genreService;
 
-        public BookController(IBookService bookService, ILogger<BookController> logger)
+
+        public BookController(IBookService bookService, ILogger<BookController> logger, IGenreService genreService)
         {
             _bookService = bookService;
             _logger = logger;
+            _genreService = genreService;
         }
 
         public async Task<IActionResult> BookIndex()
@@ -30,12 +35,18 @@ namespace Web_Labb1_MVC.Controllers
 
             return View(bookList);
         }
-
-
-
+        [HttpGet]
         public async Task<IActionResult> CreateBook()
         {
-            return View();
+            var apiResponseGenres = await _genreService.GetAllGenres<ApiResponse>(); // Replace with your actual method to fetch genres.
+
+            var genres = JsonConvert.DeserializeObject<List<Genre>>(Convert.ToString(apiResponseGenres.Result));
+
+
+            var book = new BookDto();
+            book.Genres = genres;
+            return View(book);
+            
         }
 
         [HttpPost]
@@ -43,6 +54,8 @@ namespace Web_Labb1_MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                
+                
                 var response = await _bookService.CreateBookAsync<ApiResponse>(model);
 
                 if (response != null && response.IsSuccess)
@@ -55,7 +68,7 @@ namespace Web_Labb1_MVC.Controllers
                     // Handle the case where the book creation failed, perhaps by displaying an error message.
                     // You might want to inspect the 'response' object for details on the failure.
                     ModelState.AddModelError(string.Empty, $"Failed to create the book. Please try again.");
-                    ModelState.AddModelError(string.Empty, $"Title: {model.Title}, Description: {model.Description}, Year {model.Title}, Loanable: {model.LoanAble}, AuthorId: {model.AuthorId}, GenreId: {model.GenreId}");
+                    ModelState.AddModelError(string.Empty, $"Title: {model.Title}, Description: {model.Description}, Year {model.Year}, Loanable: {model.LoanAble}, AuthorId: {model.AuthorId}, GenreId: {model.GenreId}");
 
                 }
             }
