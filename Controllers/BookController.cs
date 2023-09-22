@@ -1,9 +1,7 @@
 ﻿using Labb1_Minimal_Api.Models;
 using Labb1_Minimal_Api.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using Web_Labb1_MVC.Models;
 using Web_Labb1_MVC.Services.ServiceInterfaces;
 using ApiResponse = Labb1_Minimal_Api.Models.ApiResponse;
 
@@ -119,9 +117,19 @@ namespace Web_Labb1_MVC.Controllers
         public async Task<IActionResult> UpdateBook(int id)
         {
             var response = await _bookService.GetBookById<ApiResponse>(id);
+
+            var apiResponseGenres = await _genreService.GetAllGenres<ApiResponse>(); // Replace with your actual method to fetch genres.
+            var apiResponseAuthors = await _authorService.GetAllAuthors<ApiResponse>(); // Replace with your actual method to fetch genres.
+
+
+            var genres = JsonConvert.DeserializeObject<List<Genre>>(Convert.ToString(apiResponseGenres.Result));
+            var authors = JsonConvert.DeserializeObject<List<Author>>(Convert.ToString(apiResponseAuthors.Result));
+
             if (response != null && response.IsSuccess)
             {
                 EditBookDto model = JsonConvert.DeserializeObject<EditBookDto>(Convert.ToString(response.Result));
+                model.Genres = genres;
+                model.Authors = authors;
                 return View(model);
             }
             return NotFound();
