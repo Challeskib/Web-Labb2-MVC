@@ -13,15 +13,18 @@ namespace Web_Labb1_MVC.Controllers
     public class BookController : Controller
     {
         private readonly IBookService _bookService;
-        private readonly ILogger<BookController> _logger;
+        //private readonly ILogger<BookController> _logger;
         private readonly IGenreService _genreService;
+        private readonly IAuthorService _authorService;
 
 
-        public BookController(IBookService bookService, ILogger<BookController> logger, IGenreService genreService)
+
+        public BookController(IBookService bookService/*, ILogger<BookController> logger*/, IGenreService genreService, IAuthorService authorService)
         {
             _bookService = bookService;
-            _logger = logger;
+            //_logger = logger;
             _genreService = genreService;
+            _authorService = authorService;
         }
 
         public async Task<IActionResult> BookIndex()
@@ -39,12 +42,16 @@ namespace Web_Labb1_MVC.Controllers
         public async Task<IActionResult> CreateBook()
         {
             var apiResponseGenres = await _genreService.GetAllGenres<ApiResponse>(); // Replace with your actual method to fetch genres.
+            var apiResponseAuthors = await _authorService.GetAllAuthors<ApiResponse>(); // Replace with your actual method to fetch genres.
+
 
             var genres = JsonConvert.DeserializeObject<List<Genre>>(Convert.ToString(apiResponseGenres.Result));
+            var authors = JsonConvert.DeserializeObject<List<Author>>(Convert.ToString(apiResponseAuthors.Result));
 
 
             var book = new BookDto();
             book.Genres = genres;
+            book.Authors = authors;
             return View(book);
             
         }
@@ -79,8 +86,8 @@ namespace Web_Labb1_MVC.Controllers
         {
             var response = await _bookService.GetBookById<ApiResponse>(id);
 
-            _logger.LogInformation($"Response : {response.Result}");
-            _logger.LogInformation($"Response : {response.IsSuccess}");
+            //_logger.LogInformation($"Response : {response.Result}");
+            //_logger.LogInformation($"Response : {response.IsSuccess}");
 
 
 
